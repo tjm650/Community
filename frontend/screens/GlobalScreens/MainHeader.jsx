@@ -15,7 +15,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 const MainHeader = ({
@@ -32,7 +32,7 @@ const MainHeader = ({
   return (
     <View
       style={{
-        height: 40,
+        height: 50,
         width: "100%",
         alignItems: "center",
         paddingVertical:"3%",

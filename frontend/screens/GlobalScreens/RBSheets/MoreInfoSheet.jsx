@@ -1,4 +1,4 @@
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import React, { useRef } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

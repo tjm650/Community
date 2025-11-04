@@ -1,4 +1,4 @@
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/core";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import {

@@ -22,7 +22,7 @@ import {
   
   //======================================================================================
   
-  import useGlobal from "@/assets/common/core/useGlobal";
+  import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState } from "react";

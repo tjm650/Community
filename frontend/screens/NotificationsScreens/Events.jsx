@@ -13,12 +13,12 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import FeedSkeleton from "@/components/FeedSkeleton";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useState } from "react";
 import EmptyScreen from "../GlobalScreens/EmptyScreen";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native-paper";
 import NotifLiveView from "./EventScreen/NotifLive/NotifLiveView";

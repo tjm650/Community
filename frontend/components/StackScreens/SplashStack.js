@@ -16,7 +16,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
 //////////////////// Local Imports //////////////////
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import Splash from "@/screens/AuthScreen/Splash";
 
 const SplashStack = () => {

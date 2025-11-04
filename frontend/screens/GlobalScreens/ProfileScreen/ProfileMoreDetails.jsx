@@ -16,7 +16,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
  
 const ProfileMoreDetails = ({

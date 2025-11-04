@@ -10,7 +10,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 //import { Globals } from "../..//Light";
 //====================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 
 function TagView({ item }) {

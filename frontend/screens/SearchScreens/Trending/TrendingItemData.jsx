@@ -18,7 +18,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //import { Globals } from "../..//DarkColor";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import utils from "@/assets/core/utils";
 
 const TrendingItemData = ({ data }) => {

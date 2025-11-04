@@ -11,7 +11,7 @@ import { StyleSheet, View } from "react-native";
 //import { Globals } from "../..//Light";
 //====================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { orgDirectory } from "@/DammyData";
 import { useNavigation } from "@react-navigation/native";
 import ServiceView from "../CreateService/ServiceView";

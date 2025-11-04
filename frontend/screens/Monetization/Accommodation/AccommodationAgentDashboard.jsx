@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 const LandlordLodge = () => {
   const { theme } = useGlobal();

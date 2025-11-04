@@ -19,8 +19,8 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //import { Globals } from "../..//DarkColor";
-import useGlobal from "@/assets/common/core/useGlobal";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import useGlobal from "@/assets/core/useGlobal";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import RBOptionsSheet from "@/screens/GlobalScreens/RBSheets/RBOptionsSheet";
 import Monetization from "@/screens/Monetization/Monetization";
 import QuercusViewButton from "@/screens/QuercusAI/QuercusViewButton";

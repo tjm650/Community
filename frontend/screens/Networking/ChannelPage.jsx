@@ -19,7 +19,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //import { Globals } from "../..//DarkColor";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import MainHeader from "../GlobalScreens/MainHeader";
 import MoreInfoSheet from "../GlobalScreens/RBSheets/MoreInfoSheet";

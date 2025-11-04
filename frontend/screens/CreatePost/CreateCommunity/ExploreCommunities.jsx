@@ -13,7 +13,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { communities } from "@/DammyData";
 import { useNavigation } from "@react-navigation/native";
 import ActivityIndicate from "../../GlobalScreens/ActivityIndicate";

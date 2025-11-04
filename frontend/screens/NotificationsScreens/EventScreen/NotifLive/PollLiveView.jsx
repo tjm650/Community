@@ -25,7 +25,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { LNotifs } from "@/constants/LightColor/LNotifs";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import utils from "@/assets/core/utils";
 import DirectoryDetails from "../DirectoryDetails";
 import { useNavigation } from "@react-navigation/native";

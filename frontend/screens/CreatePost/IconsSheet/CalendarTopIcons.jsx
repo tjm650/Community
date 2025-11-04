@@ -24,7 +24,7 @@ import { DRBSheet } from "@/constants/DarkColor/DRBSheet";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { LRBSheet } from "@/constants/LightColor/LRBSheet";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import BadgePlus from "../../GlobalScreens/BadgePlus";
 
 function Icon({ IconType, icon, OnPress }) {

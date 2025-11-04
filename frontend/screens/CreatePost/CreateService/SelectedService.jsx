@@ -15,7 +15,7 @@ import {
 
 //import { Globals } from "../..//Light";
 //====================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import CheckClientType from "../../GlobalScreens/CheckClientType";
 
 function ServiceView({ item }) {

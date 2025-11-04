@@ -1,5 +1,5 @@
-import "@/assets/common/core/fontawesome";
-import useGlobal from "@/assets/common/core/useGlobal";
+import "@/assets/core/fontawesome";
+import useGlobal from "@/assets/core/useGlobal";
 import StackNavigation from "@/components/navigation/StackNavigation";
 import { StatusBarManager } from "@/components/StatusBarManager";
 import React from "react";

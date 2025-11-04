@@ -10,7 +10,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 //import { Globals } from "../..//DarkColor";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import CalendarNotifDetails from "./CalendarNotifDetails";
 import CalendarNotifTop from "./CalendarNotifTop";
 

@@ -15,7 +15,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 // ============= Light ============================//
 
 //import { Globals } from "../..//Light";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 import utils from "@/assets/core/utils";
@@ -242,10 +242,7 @@ const CreateLiveForum = () => {
         activeOpacity={0.7}
         style={{ width: "65%", flexDirection: "row" }}
       >
-        <View>
-          <UserDetailsView itemDesc={"User"} Desc={user.name} />
-          <UserDetailsView itemDesc={"Email"} Desc={user.email} />
-        </View>
+    
       </TouchableOpacity>
 
       {showDatePicker && (

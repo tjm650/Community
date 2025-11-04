@@ -18,7 +18,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 //import { Globals } from "../..//Light";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
@@ -153,15 +153,6 @@ const CreateServiceNotif = () => {
     >
       {Auth && <BottomNotif Auth={res} HandleOk={HandleOk} />}
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={{ width: "65%", flexDirection: "row" }}
-      >
-        <View>
-          <UserDetailsView itemDesc={"User"} Desc={user.name} />
-          <UserDetailsView itemDesc={"Email"} Desc={user.email} />
-        </View>
-      </TouchableOpacity>
 
       <View
         style={{

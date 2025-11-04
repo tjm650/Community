@@ -18,7 +18,7 @@ import {
 //import { Globals } from "../..//DarkColor";
 
 //======================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { newCommunities } from "@/DammyData";
 
 

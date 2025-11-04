@@ -11,7 +11,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 const Report = () => {

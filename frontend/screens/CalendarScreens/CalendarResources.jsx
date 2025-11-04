@@ -17,7 +17,7 @@ import {
   //======================================================================================
   
   import { useNavigation } from "@react-navigation/native";
-import useGlobal from "../../assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import MainHeader from "../GlobalScreens/MainHeader";
 import Calendar from "./CalendarDetails/Calendar";
 import UserLinks from "./CalendarDetails/UserLinks";

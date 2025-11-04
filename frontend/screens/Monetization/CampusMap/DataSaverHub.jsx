@@ -2,8 +2,8 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-import useGlobal from "@/assets/common/core/useGlobal";
-import { trackPageVisit } from "@/assets/common/core/storeContext/amonetization/analytics";
+import useGlobal from "@/assets/core/useGlobal";
+import { trackPageVisit } from "@/assets/core/storeContext/amonetization/analytics";
 
 const DataSaverHub = () => {
   const { theme } = useGlobal();

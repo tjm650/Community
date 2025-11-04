@@ -17,8 +17,8 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import useGlobal from "@/assets/core/useGlobal";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import EmptyScreen from "../GlobalScreens/EmptyScreen";
 import CommunityView from "./CommunityScreen/CommunityView";

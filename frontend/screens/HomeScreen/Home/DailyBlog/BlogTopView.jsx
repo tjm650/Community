@@ -12,7 +12,7 @@ import { DNotifs } from "@/constants/DarkColor/DNotifs";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { LNotifs } from "@/constants/LightColor/LNotifs";
 //======================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import utils from "@/assets/core/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";

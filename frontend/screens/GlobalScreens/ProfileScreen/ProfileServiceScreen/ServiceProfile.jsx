@@ -21,7 +21,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 
 import ProfileScreenDetails from "../ProfileScreenDetails";

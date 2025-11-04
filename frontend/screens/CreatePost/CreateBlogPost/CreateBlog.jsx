@@ -33,7 +33,7 @@ import DepartmentsTagsData from "./DepartmentsTagsData";
 import SelectedDepartment from "./SelectedDepartment";
 import SelectedTags from "./SelectedTags";
 import BottomNotif from "@/screens/ApplicationServices/Notifications/BottomNotif/BottomNotif";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 const CreateBlog = () => {
   const navigation = useNavigation();

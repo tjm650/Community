@@ -7,7 +7,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 // ============= Light ============================//
 
 //import { Globals } from "../..//DarkColor";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 //======================================================================================

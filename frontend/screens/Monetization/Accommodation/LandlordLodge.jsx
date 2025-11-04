@@ -20,11 +20,11 @@ import { faLocationDot, faStar, faPhone } from "@fortawesome/free-solid-svg-icon
 
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import ActivityIndicate from "@/screens/GlobalScreens/ActivityIndicate";
 import EmptyScreen from "@/screens/GlobalScreens/EmptyScreen";
-import { trackPageVisit } from "@/assets/common/core/storeContext/amonetization/analytics";
+import { trackPageVisit } from "@/assets/core/storeContext/amonetization/analytics";
 
 const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 220;

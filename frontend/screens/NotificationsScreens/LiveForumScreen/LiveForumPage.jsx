@@ -20,9 +20,9 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import utils from "@/assets/core/utils";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { SafeAreaView } from "react-native";
 import NotifPostRenderComment from "../EventScreen/NotifPost/NotifPostComment/NotifPostRenderComment";

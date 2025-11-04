@@ -6,7 +6,7 @@ import {
   View
 } from "react-native";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import React, { useState } from "react";
 
 // ========================== Colors ==========================================//

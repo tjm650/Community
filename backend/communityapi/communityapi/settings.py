@@ -103,20 +103,28 @@ from urllib.parse import urlparse
 redis_parsed = urlparse(REDIS_URL)
 redis_host = redis_parsed.hostname or '196.220.104.115'
 redis_port = redis_parsed.port or 6379
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [
-                (
-                    redis_host,
-                    redis_port,
-                )
-            ],
+# Use an in-memory channel layer for local development (faster startup, no external Redis required).
+# In production (DEBUG=False) we fall back to RedisChannelLayer using REDIS_URL.
+if DEBUG:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
         },
-    },
-}
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [
+                    (
+                        redis_host,
+                        redis_port,
+                    )
+                ],
+            },
+        },
+    }
 
 
 # Application definition

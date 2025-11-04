@@ -12,7 +12,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import InternshipNotifInfor from "./InternshipNotifInfor";
 import IntershipNotifTopView from "./IntershipNotifTopView";
 

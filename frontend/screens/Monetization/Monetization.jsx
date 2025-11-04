@@ -16,8 +16,8 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 // ============= Light ============================//
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
-import useGlobal from "@/assets/common/core/useGlobal";
-import { formatNumber } from "@/assets/common/utils/numberFormat";
+import useGlobal from "@/assets/core/useGlobal";
+import { formatNumber } from "@/assets/core/utils/numberFormat";
 
 const Monetization = () => {
   const navigation = useNavigation();

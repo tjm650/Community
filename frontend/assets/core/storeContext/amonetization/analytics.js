@@ -4,7 +4,7 @@
 export const trackPageVisit = (pageName, sessionId = '', userAgent = '') => {
   try {
     // Import the global store dynamically to avoid circular dependencies
-    import('@/assets/common/core/useGlobal').then(({ default: useGlobal }) => {
+    import('@/assets/core/useGlobal').then(({ default: useGlobal }) => {
       const store = useGlobal.getState();
 
       // Use websocket method to track the visit
@@ -29,7 +29,7 @@ export const trackPageVisit = (pageName, sessionId = '', userAgent = '') => {
 export const fetchAnalyticsDashboard = () => {
   return new Promise((resolve, reject) => {
     try {
-      import('@/assets/common/core/useGlobal').then(({ default: useGlobal }) => {
+      import('@/assets/core/useGlobal').then(({ default: useGlobal }) => {
         const store = useGlobal.getState();
 
         // Use websocket method to fetch dashboard data
@@ -54,7 +54,7 @@ export const fetchAnalyticsDashboard = () => {
 export const fetchAnalyticsSummary = () => {
   return new Promise((resolve, reject) => {
     try {
-      import('@/assets/common/core/useGlobal').then(({ default: useGlobal }) => {
+      import('@/assets/core/useGlobal').then(({ default: useGlobal }) => {
         const store = useGlobal.getState();
 
         // Use websocket method to fetch summary data
@@ -83,7 +83,7 @@ export const fetchAnalyticsSummary = () => {
 // Utility to get analytics data from store
 export const getAnalyticsFromStore = () => {
   try {
-    const useGlobal = require('@/assets/common/core/useGlobal');
+    const useGlobal = require('@/assets/core/useGlobal');
     const store = useGlobal.getState();
     return store.monetization?.analytics || {
       dashboard: [],

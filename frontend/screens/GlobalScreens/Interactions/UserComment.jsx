@@ -17,7 +17,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 //import { Globals } from "../..//DarkColor";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import FilePicker from "../../CreatePost/FilePicker";

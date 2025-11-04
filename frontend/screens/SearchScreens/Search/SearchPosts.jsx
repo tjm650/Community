@@ -1,5 +1,5 @@
-import useGlobal from "@/assets/common/core/useGlobal";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import useGlobal from "@/assets/core/useGlobal";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import React from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 

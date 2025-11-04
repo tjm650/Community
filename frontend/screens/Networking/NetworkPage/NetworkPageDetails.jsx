@@ -11,7 +11,7 @@ import { StyleSheet, View } from "react-native";
 //import { Globals } from "../..//DarkColor";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import LinkView from "./LinkView";
 

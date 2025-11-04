@@ -21,7 +21,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import CalendarMain from "../CalendarScreens/CalendarMain";
 import IconsSheet from "../CreatePost/IconsSheet/IconsSheet";

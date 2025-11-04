@@ -17,7 +17,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
 //////////////////// Local Imports //////////////////
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 import Agreement from "@/screens/AuthScreen/Agreement";
 import CompleteSignUp from "@/screens/AuthScreen/CompleteSignUp";

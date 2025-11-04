@@ -1,4 +1,4 @@
-import FeedSkeleton from "@/components/FeedSkeleton";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 
 const TrendingSkeleton = ({ rows = 4 }) => {
   return <FeedSkeleton rows={rows} compact={true} />;

@@ -595,7 +595,8 @@ def generate_image_analysis_response(image_data, prompt, context):
             # Handle URL format
             try:
                 import requests
-                response = requests.get(image_data)
+                # Add a timeout so a slow/unreachable image URL doesn't block the consumer
+                response = requests.get(image_data, timeout=10)
                 response.raise_for_status()
 
                 # Create PIL Image from URL content

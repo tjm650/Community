@@ -19,7 +19,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import ShareContent from "../../ApplicationServices/Sharing/ShareContent";
 import StatsCount from "../../GlobalScreens/Interactions/StatsCount";
 import UserComments from "../../GlobalScreens/RBSheets/UserComments";

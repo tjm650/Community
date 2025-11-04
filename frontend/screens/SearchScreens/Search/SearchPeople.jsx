@@ -7,9 +7,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 
 // ============= Light ============================//
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import utils from "@/assets/core/utils";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import CheckClientType from "@/screens/GlobalScreens/CheckClientType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

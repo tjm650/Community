@@ -18,7 +18,7 @@ import { Audio } from 'expo-av';
 // Import theme constants
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 const InputMessage = ({
   onSend,
@@ -224,17 +224,24 @@ const InputMessage = ({
         copyToCacheDirectory: true,
       });
 
-      if (!result.canceled && result.assets[0]) {
+      // expo-document-picker returns an object with a `type` field ('cancel' or 'success')
+      // and file properties such as `uri`, `name`, and `size`.
+      // Newer expo APIs sometimes mirror image-picker and include `assets`.
+      if (result && result.type !== 'cancel') {
+        const uri = result.uri ?? result.assets?.[0]?.uri;
+        const name = result.name ?? result.assets?.[0]?.name ?? 'file';
+        const size = result.size ?? result.assets?.[0]?.size ?? null;
+
         const messageData = {
           content: 'File',
           message_type: 'file',
-          media_url: result.assets[0].uri,
-          fileName: result.assets[0].name,
-          fileSize: result.assets[0].size,
+          media_url: uri,
+          fileName: name,
+          fileSize: size,
           reply_to: replyTo,
           timestamp: new Date().toISOString(),
         };
-        
+
         onSend(messageData);
       }
     } catch (error) {

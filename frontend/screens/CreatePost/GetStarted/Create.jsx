@@ -23,7 +23,7 @@ import Video from 'react-native-video';
 import MainHeader from "../../GlobalScreens/MainHeader";
 
 import { community_gifs } from "@/assets/assets";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import CheckClientType from "../../GlobalScreens/CheckClientType";
 import MoreInfoSheet from "../../GlobalScreens/RBSheets/MoreInfoSheet";
 

@@ -18,7 +18,7 @@ import { LNavScreens } from "../../constants/LightColor/LNavScreens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
-import useGlobal from "../../assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 //////////////////// Home-Screens //////////////////
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

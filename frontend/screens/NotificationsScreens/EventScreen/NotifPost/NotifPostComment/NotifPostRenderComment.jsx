@@ -10,7 +10,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 //import { Globals } from "../..//Light";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import PostDetailsView from "@/screens/HomeScreen/Home/Post/PostDetailsView";
 import PostTopView from "@/screens/HomeScreen/Home/Post/PostTopView";
 import { useNavigation } from "@react-navigation/core";

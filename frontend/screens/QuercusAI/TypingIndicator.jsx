@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { DGlobals } from '@/constants/DarkColor/DGlobals';
 import { LGlobals } from '@/constants/LightColor/LGlobals';
-import useGlobal from '@/assets/common/core/useGlobal';
+import useGlobal from '@/assets/core/useGlobal';
 
 const TypingIndicator = ({ isVisible, message = "thinking..." }) => {
   const { theme } = useGlobal();

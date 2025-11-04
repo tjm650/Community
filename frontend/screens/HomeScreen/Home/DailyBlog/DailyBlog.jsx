@@ -22,7 +22,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 
 import React, { useLayoutEffect, useEffect, useState } from "react";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
@@ -31,8 +31,8 @@ import EmptyScreen from "../../../GlobalScreens/EmptyScreen";
 import BlogView from "./BlogView";
 import MainHeader from "@/screens/GlobalScreens/MainHeader";
 import { MaterialIcons } from "@expo/vector-icons";
-import { trackPageVisit } from "@/assets/common/core/storeContext/amonetization/analytics";
-import { formatNumber } from "@/assets/common/utils/numberFormat";
+import { trackPageVisit } from "@/assets/core/storeContext/amonetization/analytics";
+import { formatNumber } from "@/assets/core/utils/numberFormat";
 
 //////////////////////// Functions //////////////////////////////////////////////////////
 

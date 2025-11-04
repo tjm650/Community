@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useGlobal } from '@/assets/common/core/useGlobal';
+import { useGlobal } from '@/assets/core/useGlobal';
 import { DGlobals } from '@/constants/DarkColor/DGlobals';
 import { LGlobals } from '@/constants/LightColor/LGlobals';
 import AsyncStorage from '@react-native-async-storage/async-storage';

@@ -12,7 +12,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 //import { Globals } from "../..//Light";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //====================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 function UserDetailsView({ itemDesc, Desc }) {
   const { theme } = useGlobal();

@@ -18,7 +18,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 //import { Globals } from "../..//DarkColor";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 // ===================================================================//
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 function CountDown({ startTimer, endTimer }) {

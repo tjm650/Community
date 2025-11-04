@@ -1,4 +1,4 @@
-import "@/assets/common/core/fontawesome";
+import "@/assets/core/fontawesome";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
 import { StyleSheet, StatusBar } from "react-native";
@@ -13,7 +13,7 @@ import { StyleSheet, StatusBar } from "react-native";
 //======================================================================================
 
 //////////////////// Local Imports //////////////////
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 //////////////////// Authentication Screens //////////////////
 

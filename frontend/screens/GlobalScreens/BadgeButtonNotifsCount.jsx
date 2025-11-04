@@ -9,7 +9,7 @@ import { StyleSheet, Text } from "react-native";
 // ============= Light ============================//
 
 //import { Globals } from "../..//DarkColor";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 //======================================================================================
 

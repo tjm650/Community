@@ -19,7 +19,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 // ============= Light ============================//
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 const CommunityAds = () => {
   const navigation = useNavigation();

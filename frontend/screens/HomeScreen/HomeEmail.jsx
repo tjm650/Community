@@ -22,7 +22,7 @@ import {
   
   //======================================================================================
   
-  import useGlobal from "@/assets/common/core/useGlobal";
+  import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import Messages from "../EmailScreens/Messages";
 import HomeEmailTopView from "../TopViews/HomeEmailTopView";

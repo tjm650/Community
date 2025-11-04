@@ -16,7 +16,7 @@ import {
 
 //import { Globals } from "../..//Light";
 //====================================================================================
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 
 function EventView({ item }) {
   const { theme } = useGlobal();

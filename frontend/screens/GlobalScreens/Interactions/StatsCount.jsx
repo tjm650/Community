@@ -11,8 +11,8 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
-import { formatNumber } from "@/assets/common/utils/numberFormat";
+import useGlobal from "@/assets/core/useGlobal";
+import { formatNumber } from "@/assets/core/utils/numberFormat";
 import React from "react";
 
 function StatsCount({count}) {

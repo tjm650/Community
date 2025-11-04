@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // Import theme constants
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { debounce, optimizeListData } from "@/assets/core/performance";
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";

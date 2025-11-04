@@ -22,7 +22,7 @@ import { LRBSheet } from "@/constants/LightColor/LRBSheet";
 
 //import { Globals } from "../..//DarkColor";
 import { Community_assets } from "@/assets/assets";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { ADDRESS } from "@/assets/core/api";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

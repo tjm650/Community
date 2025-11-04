@@ -19,8 +19,8 @@ import LottieView from "lottie-react-native";
 // ========================== Colors ==========================================//
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-import useGlobal from "@/assets/common/core/useGlobal";
-import { trackPageVisit } from "@/assets/common/core/storeContext/amonetization/analytics";
+import useGlobal from "@/assets/core/useGlobal";
+import { trackPageVisit } from "@/assets/core/storeContext/amonetization/analytics";
 
 const LostFound = () => {
   const navigation = useNavigation();

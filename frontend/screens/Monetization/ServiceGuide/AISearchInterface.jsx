@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 // Colors
-import useGlobal from '@/assets/common/core/useGlobal';
+import useGlobal from '@/assets/core/useGlobal';
 import { DGlobals } from '@/constants/DarkColor/DGlobals';
 import { LGlobals } from '@/constants/LightColor/LGlobals';
 

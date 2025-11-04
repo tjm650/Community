@@ -15,7 +15,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { LNavScreens } from "@/constants/LightColor/LNavScreens";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import BadgeButtonNotifsCount from "../GlobalScreens/BadgeButtonNotifsCount";

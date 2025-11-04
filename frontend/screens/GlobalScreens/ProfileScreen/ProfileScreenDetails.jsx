@@ -1,4 +1,4 @@
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import StaffProfile from "./ProfileClientScreen/StaffProfile";

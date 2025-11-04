@@ -10,7 +10,7 @@ import { StyleSheet, View } from "react-native";
 
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import PostInteractions from "./PostInteractions";

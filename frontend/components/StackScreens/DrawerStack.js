@@ -14,7 +14,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 //======================================================================================
 
 //////////////////// Local Imports //////////////////
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import Feedback from "@/screens/ApplicationServices/Feedback/Feedback";
 import AppNotifInbox from "@/screens/ApplicationServices/Notifications/OfficialAppNotif/AppNotifInbox";
 import OfficialAppNotif from "@/screens/ApplicationServices/Notifications/OfficialAppNotif/OfficialAppNotif";
@@ -38,8 +38,6 @@ import CreateCommunityPages from "@/screens/CreatePost/GetStarted/CreateCommunit
 import CreateOrganizationPages from "@/screens/CreatePost/GetStarted/CreateOrganizationPage/CreateOrganizationPages";
 import CreateServicePages from "@/screens/CreatePost/GetStarted/CreateServicePage/CreateServicePages";
 import MesssageInbox from "@/screens/EmailScreens/MessageInbox";
-import ExchangeDisclaimer from "@/screens/Finance/ExchangeDisclaimer";
-import ExchangeRates from "@/screens/Finance/ExchangeRates";
 import ImageScreen from "@/screens/GlobalScreens/ImageScreen";
 import ProfileImagePreview from "@/screens/GlobalScreens/ProfileImagePreview";
 import ProfileScreen from "@/screens/GlobalScreens/ProfileScreen/ProfileScreen";
@@ -812,45 +810,7 @@ const DrawerStack = () => {
             animationTypeForReplace: "push",
           }}
         />
-        <Stack.Screen
-          name="ExchangeRates"
-          component={ExchangeRates}
-          options={{
-            headerShown: false,
-            statusBarHidden: false,
-            statusBarBackgroundColor: isLight
-              ? LGlobals.StatusBar.statusBarColor
-              : DGlobals.StatusBar.statusBarColor,
-            statusBarStyle: isLight
-              ? LGlobals.StatusBar.statusBarStyle
-              : DGlobals.StatusBar.statusBarStyle,
-            statusBarTranslucent: true,
-            statusBarAnimation: "slide",
-            contentStyle: { zIndex: 1 },
-            animation: "slide_from_right",
-            animationTypeForReplace: "push",
-          }}
-        />
-
-        <Stack.Screen
-          name="ExchangeDisclaimer"
-          component={ExchangeDisclaimer}
-          options={{
-            headerShown: false,
-            statusBarHidden: false,
-            statusBarBackgroundColor: isLight
-              ? LGlobals.StatusBar.statusBarColor
-              : DGlobals.StatusBar.statusBarColor,
-            statusBarStyle: isLight
-              ? LGlobals.StatusBar.statusBarStyle
-              : DGlobals.StatusBar.statusBarStyle,
-            statusBarTranslucent: true,
-            statusBarAnimation: "slide",
-            contentStyle: { zIndex: 1 },
-            animation: "slide_from_right",
-            animationTypeForReplace: "push",
-          }}
-        />
+       
         <Stack.Screen
           name="CreateServiceNotif"
           component={CreateServiceNotif}

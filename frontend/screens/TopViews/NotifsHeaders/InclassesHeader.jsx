@@ -17,7 +17,7 @@ import { DGlobals } from "@/constants/DarkColor/DGlobals";
 // ============= Light ============================//
 
 //import { Globals } from "../..//Light";
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import MainHeader from "../../GlobalScreens/MainHeader";
 

@@ -33,7 +33,7 @@ import {
   responseQuercusConversationInsights,
   responseQuercusAnalytics,
   responseQuercusSuggestions,
-} from "@/assets/common/core/storeContext/Quercus/Quercus";
+} from "@/assets/core/storeContext/Quercus/Quercus";
 
 //----------------------------------------
 // Socket receive message handlers
@@ -924,7 +924,7 @@ const useGlobal = create(
   initializeMessagePostUtils: async () => {
     try {
       // Load utilities from Quercus.js
-          const QuercusUtils = require('@/assets/common/utils/Quercus');
+          const QuercusUtils = require('@/assets/core/utils/Quercus');
 
       // Initialize number formatting utility
       if (QuercusUtils.formatNumber) {
@@ -1395,7 +1395,7 @@ const useGlobal = create(
 
       // Track analytics
       if (get().user) {
-        import('@/assets/common/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
+        import('@/assets/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
           trackPageVisit('message_sent', conversationId, 'message');
         });
       }
@@ -1424,7 +1424,7 @@ const useGlobal = create(
 
       // Track analytics
       if (get().user) {
-        import('@/assets/common/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
+        import('@/assets/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
           trackPageVisit('post_created', userId, 'post');
         });
       }
@@ -1456,7 +1456,7 @@ const useGlobal = create(
   // Message formatting utilities
   formatMessageContent: (content, type = 'text') => {
     try {
-      const QuercusUtils = require('@/assets/common/utils/Quercus');
+      const QuercusUtils = require('@/assets/core/utils/Quercus');
 
       switch (type) {
         case 'number':
@@ -1983,14 +1983,14 @@ const useGlobal = create(
 
         "message.analytics.track": (set, get, data) => {
           // Track message analytics
-          import('@/assets/common/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
+          import('@/assets/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
             trackPageVisit('message_interaction', data.conversation_id, 'message');
           });
         },
 
         "post.analytics.track": (set, get, data) => {
           // Track post analytics
-          import('@/assets/common/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
+          import('@/assets/core/storeContext/amonetization/analytics').then(({ trackPageVisit }) => {
             trackPageVisit('post_interaction', data.post_id, 'post');
           });
         },

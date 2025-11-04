@@ -17,7 +17,7 @@ import { LGlobals } from "@/constants/LightColor/LGlobals";
 import { LNotifs } from "@/constants/LightColor/LNotifs";
 //======================================================================================
 
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import { TouchableOpacity } from "react-native";
 import utils from "@/assets/core/utils";
 import DirectoryDetails from "../DirectoryDetails";

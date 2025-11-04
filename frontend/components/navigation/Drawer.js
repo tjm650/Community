@@ -26,7 +26,7 @@ import * as React from "react";
 import { useEffect } from "react";
 
 //////////////////// Local Imports //////////////////
-import useGlobal from "@/assets/common/core/useGlobal";
+import useGlobal from "@/assets/core/useGlobal";
 import BottomNav from "./BottomNav";
 
 ////////////////// Screens//////////////////

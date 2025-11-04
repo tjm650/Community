@@ -15,7 +15,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { DGlobals } from '@/constants/DarkColor/DGlobals';
 import { LGlobals } from '@/constants/LightColor/LGlobals';
-import useGlobal from '@/assets/common/core/useGlobal';
+import useGlobal from '@/assets/core/useGlobal';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';

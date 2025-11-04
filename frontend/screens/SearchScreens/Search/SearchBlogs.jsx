@@ -8,8 +8,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
 
 // ============= Light ============================//
-import useGlobal from "@/assets/common/core/useGlobal";
-import FeedSkeleton from "@/components/FeedSkeleton";
+import useGlobal from "@/assets/core/useGlobal";
+import FeedSkeleton from "@/components/skeletons/FeedSkeleton";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
 import BlogView from "@/screens/HomeScreen/Home/DailyBlog/BlogView";
 import Animated from "react-native-reanimated";
