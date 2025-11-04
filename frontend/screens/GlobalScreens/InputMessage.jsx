@@ -1,435 +1,536 @@
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import {
-  Dimensions,
-  Image,
-  Keyboard,
-  StyleSheet,
+  View,
   Text,
   TextInput,
   TouchableOpacity,
-  View
-} from "react-native";
+  StyleSheet,
+  Animated,
+  Alert,
+  Keyboard,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
+import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
+import { Audio } from 'expo-av';
 
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
-// ========================== Colors ==========================================//
-// ============= Dark ============================//
-
-//import { Globals } from "../..//DarkColor";
-import { DCommunity } from "@/constants/DarkColor/DCommunity";
+// Import theme constants
 import { DGlobals } from "@/constants/DarkColor/DGlobals";
-
-// ============= Light ============================//
-
-//import { Globals } from "../..//DarkColor";
-import { LCommunity } from "@/constants/LightColor/LCommunity";
 import { LGlobals } from "@/constants/LightColor/LGlobals";
-
-//======================================================================================
 import useGlobal from "@/assets/common/core/useGlobal";
-import { ScrollView } from "react-native";
-import { ActivityIndicator, Modal } from "react-native-paper";
 
 const InputMessage = ({
-  message,
-  setMessage,
   onSend,
-  image,
-  showSelected,
-  tagedMessage,
-  pickImage,
-  setImage,
-  setImage1,
-  onPressImage,
+  onTyping,
+  placeholder = "Type a message...",
+  maxLength = 1000,
+  disabled = false,
+  showEmojiPicker = true,
+  showVoiceRecording = true,
+  showFileAttachment = true,
+  showImagePicker = true,
+  replyTo = null,
+  onCancelReply,
 }) => {
   const { theme } = useGlobal();
-  let isLight = theme === "light";
+  const isLight = theme === "light";
+  
+  const [message, setMessage] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [showEmojiPanel, setShowEmojiPanel] = useState(false);
+  const [recording, setRecording] = useState(null);
+  
+  const inputRef = useRef(null);
+  const recordingTimer = useRef(null);
+  const typingTimer = useRef(null);
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
-  const [keyboardOpen, setKeyboardOpen] = useState(false)
-  const [keyboardHeight, setKeyboardHeight] = useState("")
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-  const [isRecording, setIsRecording] = useState(false)
-  const [recordingTime, setRecordingTime] = useState(0)
-  const recordingTimerRef = useRef(null)
+  // Emoji data - memoized to prevent re-creation
+  const emojis = useMemo(() => [
+    '😀', '😂', '😍', '🥰', '😎', '🤔', '😢', '😡', '👍', '👎',
+    '❤️', '💔', '🎉', '🎂', '🌹', '🍕', '☕', '🚀', '💯', '🔥',
+    '😊', '😭', '😱', '🤗', '🤫', '🤐', '🤯', '😴', '🤤', '😵',
+    '🥳', '😇', '🤠', '👻', '🤖', '👽', '👾', '🤡', '👹', '👺'
+  ], []);
 
+  // Memoized styles for better performance
+  const containerStyle = useMemo(() => [
+    styles.container,
+    { backgroundColor: isLight ? LGlobals.surface : DGlobals.surface },
+  ], [isLight]);
+
+  const inputStyle = useMemo(() => [
+    styles.input,
+    { 
+      backgroundColor: isLight ? LGlobals.background : DGlobals.background,
+      color: isLight ? LGlobals.onBackground : DGlobals.onBackground,
+      borderColor: isLight ? LGlobals.outline : DGlobals.outline,
+    },
+  ], [isLight]);
+
+  const buttonStyle = useMemo(() => [
+    styles.button,
+    { backgroundColor: isLight ? LGlobals.primary : DGlobals.primary },
+  ], [isLight]);
+
+  // Handle text input changes
+  const handleTextChange = useCallback((text) => {
+    setMessage(text);
+    
+    // Handle typing indicator
+    if (onTyping) {
+      clearTimeout(typingTimer.current);
+      typingTimer.current = setTimeout(() => {
+        onTyping(false);
+      }, 1000);
+      onTyping(true);
+    }
+  }, [onTyping]);
+
+  // Handle send message
+  const handleSend = useCallback(() => {
+    if (!message.trim() || disabled) return;
+    
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    const messageData = {
+      content: message.trim(),
+      message_type: 'text',
+      reply_to: replyTo,
+      timestamp: new Date().toISOString(),
+    };
+    
+    onSend(messageData);
+    setMessage('');
+    if (onTyping) onTyping(false);
+    
+    // Clear reply if exists
+    if (replyTo && onCancelReply) {
+      onCancelReply();
+    }
+  }, [message, disabled, replyTo, onSend, onTyping, onCancelReply]);
+
+  // Handle emoji selection
+  const handleEmojiSelect = useCallback((emoji) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setMessage(prev => prev + emoji);
+    setShowEmojiPanel(false);
+    inputRef.current?.focus();
+  }, []);
+
+  // Handle voice recording
+  const startRecording = useCallback(async () => {
+    try {
+      const { status } = await Audio.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please grant microphone permission to record voice messages.');
+        return;
+      }
+
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      
+      setRecording(recording);
+      setIsRecording(true);
+      setRecordingTime(0);
+      
+      // Start timer
+      recordingTimer.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+      
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+      Alert.alert('Error', 'Failed to start recording. Please try again.');
+    }
+  }, []);
+
+  const stopRecording = useCallback(async () => {
+    if (!recording) return;
+    
+    try {
+      await recording.stopAndUnloadAsync();
+      const uri = recording.getURI();
+      setRecording(null);
+      setIsRecording(false);
+      clearInterval(recordingTimer.current);
+      
+      if (uri) {
+        const messageData = {
+          content: 'Voice message',
+          message_type: 'audio',
+          media_url: uri,
+          duration: recordingTime,
+          reply_to: replyTo,
+          timestamp: new Date().toISOString(),
+        };
+        
+        onSend(messageData);
+      }
+      
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  }, [recording, recordingTime, replyTo, onSend]);
+
+  // Handle image picker
+  const handleImagePicker = useCallback(async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Please grant photo library permission to select images.');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets[0]) {
+        const messageData = {
+          content: 'Image',
+          message_type: 'image',
+          media_url: result.assets[0].uri,
+          reply_to: replyTo,
+          timestamp: new Date().toISOString(),
+        };
+        
+        onSend(messageData);
+      }
+    } catch (error) {
+      console.error('Image picker error:', error);
+      Alert.alert('Error', 'Failed to select image. Please try again.');
+    }
+  }, [replyTo, onSend]);
+
+  // Handle file picker
+  const handleFilePicker = useCallback(async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+        copyToCacheDirectory: true,
+      });
+
+      if (!result.canceled && result.assets[0]) {
+        const messageData = {
+          content: 'File',
+          message_type: 'file',
+          media_url: result.assets[0].uri,
+          fileName: result.assets[0].name,
+          fileSize: result.assets[0].size,
+          reply_to: replyTo,
+          timestamp: new Date().toISOString(),
+        };
+        
+        onSend(messageData);
+      }
+    } catch (error) {
+      console.error('File picker error:', error);
+      Alert.alert('Error', 'Failed to select file. Please try again.');
+    }
+  }, [replyTo, onSend]);
+
+  // Format recording time
+  const formatRecordingTime = useCallback((seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }, []);
+
+  // Handle keyboard events
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (e) => {
-        const keyboardHeight = e.endCoordinates.height;
-        setKeyboardHeight(keyboardHeight)
-        setKeyboardOpen(true);
-        setShowEmojiPicker(false);
-      }
-    );
-
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardOpen(false);
-      }
-    );
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setShowEmojiPanel(false);
+    });
 
     return () => {
       keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
+      clearTimeout(typingTimer.current);
+      clearInterval(recordingTimer.current);
     };
   }, []);
 
-  // Emoji picker
-  const emojis = ['😀', '😂', '😍', '🥰', '😎', '🤔', '😢', '😡', '👍', '👎', '❤️', '💔', '🎉', '🎂', '🌹', '🍕', '☕', '🚀', '💯', '🔥'];
-  
-  const addEmoji = (emoji) => {
-    setMessage(message + emoji);
-  };
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (recording) {
+        recording.stopAndUnloadAsync();
+      }
+    };
+  }, [recording]);
 
-  // Voice recording functions
-  const startRecording = () => {
-    setIsRecording(true);
-    setRecordingTime(0);
-    recordingTimerRef.current = setInterval(() => {
-      setRecordingTime(prev => prev + 1);
-    }, 1000);
-  };
-
-  const stopRecording = () => {
-    setIsRecording(false);
-    if (recordingTimerRef.current) {
-      clearInterval(recordingTimerRef.current);
-    }
-    setRecordingTime(0);
-    // Here you would implement actual voice recording logic
-    Alert.alert('Voice Message', 'Voice recording feature coming soon!');
-  };
-
-  return (
-    <View style={{ width: "100%", marginBottom: keyboardOpen && keyboardHeight }}>
-      {showSelected && (
-        <View
-          style={{
-            paddingHorizontal: "5%",
-            paddingVertical: "2%",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
-          <Text
-            style={{
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-              color: isLight ? LGlobals.text : DGlobals.text,
-            }}
-          >
-            {tagedMessage.text}
+  // Render reply preview
+  const renderReplyPreview = useCallback(() => {
+    if (!replyTo) return null;
+    
+    return (
+      <Animated.View 
+        style={[
+          styles.replyPreview,
+          { backgroundColor: isLight ? LGlobals.background : DGlobals.background },
+          {
+            transform: [{ translateY: slideAnim }],
+          },
+        ]}
+      >
+        <View style={styles.replyContent}>
+          <Text style={[styles.replyText, { color: isLight ? LGlobals.onBackground : DGlobals.onBackground }]}>
+            Replying to: {replyTo.sender?.first_name || 'You'}
+          </Text>
+          <Text style={[styles.replyMessage, { color: isLight ? LGlobals.onSurface : DGlobals.onSurface }]} numberOfLines={1}>
+            {replyTo.content}
           </Text>
         </View>
-      )}
+        <TouchableOpacity onPress={onCancelReply} style={styles.cancelReply}>
+          <Ionicons 
+            name="close" 
+            size={20} 
+            color={isLight ? LGlobals.onSurface : DGlobals.onSurface} 
+          />
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }, [replyTo, isLight, slideAnim, onCancelReply]);
 
-      {image && (
-        <View
-          style={{
-            flexDirection: "row-reverse",
-            gap: 10,
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => pickImage(setImage, setImage1)}
-            style={{
-              borderBottomRightRadius: 20,
-              borderTopRightRadius: 20,
-              borderTopLeftRadius: 20,
-              borderBottomLeftRadius: 20,
-              borderWidth: 1,
-              borderColor: isLight ? LGlobals.icon : DGlobals.icon,
-              alignSelf: "flex-end",
-              marginHorizontal: "7%",
-              overflow: "hidden",
-              marginBottom: "5%",
-            }}
-          >
-            <View
-              style={{
-                position: "absolute",
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(32, 43, 44, 0.65)",
-                zIndex: 99,
-                height: "100%",
-                paddingVertical: "10%",
-                right: 0,
-                left: 0,
-              }}
+  // Render emoji panel
+  const renderEmojiPanel = useCallback(() => {
+    if (!showEmojiPanel) return null;
+    
+    return (
+      <Animated.View 
+        style={[
+          styles.emojiPanel,
+          { backgroundColor: isLight ? LGlobals.surface : DGlobals.surface },
+          {
+            transform: [{ translateY: slideAnim }],
+          },
+        ]}
+      >
+        <View style={styles.emojiGrid}>
+          {emojis.map((emoji, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.emojiButton}
+              onPress={() => handleEmojiSelect(emoji)}
             >
-              <ActivityIndicator
-                size={20}
-                color={isLight ? LGlobals.greyText : DGlobals.greyText}
-              />
-            </View>
-            <Image
-              style={{
-                resizeMode: "cover",
-                // aspectRatio: 2, // imageSize.height
-                height: Dimensions.get("window").height * 0.2,
-                width: Dimensions.get("window").width * 0.3,
-                overflow: "hidden",
-                borderWidth: 0,
-                borderBottomRightRadius: 15,
-                borderTopRightRadius: 15,
-                borderTopLeftRadius: 15,
-                borderBottomLeftRadius: 15,
-                borderColor: isLight
-                  ? LCommunity.GInbox.imageBackground
-                  : DCommunity.GInbox.imageBackground,
-                backgroundColor: isLight
-                  ? LCommunity.GInbox.imageBackground
-                  : DCommunity.GInbox.imageBackground,
-              }}
-              source={{ uri: image }}
+              <Text style={styles.emojiText}>{emoji}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </Animated.View>
+    );
+  }, [showEmojiPanel, isLight, slideAnim, handleEmojiSelect, emojis]);
+
+  return (
+    <View style={containerStyle}>
+      {renderReplyPreview()}
+      
+      <View style={styles.inputContainer}>
+        {/* Attachment Button */}
+        {showFileAttachment && (
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => {
+              Alert.alert(
+                'Add Attachment',
+                'Choose attachment type',
+                [
+                  { text: 'Image', onPress: handleImagePicker },
+                  { text: 'File', onPress: handleFilePicker },
+                  { text: 'Cancel', style: 'cancel' },
+                ]
+              );
+            }}
+            disabled={disabled}
+          >
+            <Ionicons 
+              name="add-circle-outline" 
+              size={24} 
+              color={isLight ? LGlobals.onSurface : DGlobals.onSurface} 
             />
           </TouchableOpacity>
-
-          {!message && (
-            <TouchableOpacity
-              onPress={onPressImage}
-              activeOpacity={0.8}
-              style={{
-                alignItems: "center",
-                // borderWidth: 0.3,
-                // backgroundColor: "rgba(32, 43, 44, 0.65)",
-                borderColor: isLight
-                  ? LGlobals.borderColor
-                  : DGlobals.borderColor,
-                paddingHorizontal: "1%",
-                height: 20,
-                borderRadius: 20,
-              }}
-            >
-              <FontAwesomeIcon
-                icon="fa-solid fa-paper-plane"
-                size={20}
-                color={isLight ? LGlobals.icon : DGlobals.icon}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
-
-      <View
-        style={{
-          paddingHorizontal: "3%",
-          paddingBottom: "2%",
-          backgroundColor: "transparent",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 5,
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingHorizontal: 18,
-            borderWidth: 0.3,
-            borderRadius: 25,
-            borderColor: isLight
-              ? LGlobals.inputMessages.borderColor
-              : DGlobals.inputMessages.borderColor,
-            backgroundColor: isLight
-              ? LGlobals.inputMessages.backgroundColor
-              : DGlobals.inputMessages.backgroundColor,
-            height: 40,
-          }}
-        >
-          <TextInput
-            multiline={true}
-            placeholder="Type message..."
-            placeholderTextColor={
-              isLight
-                ? LGlobals.inputMessages.placeholderTextColor
-                : DGlobals.inputMessages.placeholderTextColor
-            }
-            value={message}
-            onChangeText={setMessage}
-            style={{
-              width: "80%",
-              paddingRight: "5%",
-              color: isLight ? LGlobals.text : DGlobals.text,
+        )}
+        
+        {/* Text Input */}
+        <TextInput
+          ref={inputRef}
+          style={inputStyle}
+          value={message}
+          onChangeText={handleTextChange}
+          placeholder={placeholder}
+          placeholderTextColor={isLight ? LGlobals.onSurface : DGlobals.onSurface}
+          multiline
+          maxLength={maxLength}
+          editable={!disabled}
+          onFocus={() => setShowEmojiPanel(false)}
+        />
+        
+        {/* Emoji Button */}
+        {showEmojiPicker && (
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => {
+              setShowEmojiPanel(!showEmojiPanel);
+              if (!showEmojiPanel) {
+                Keyboard.dismiss();
+              }
             }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 12,
-            }}
+            disabled={disabled}
           >
-            <TouchableOpacity onPress={pickImage}>
-              <Ionicons
-                name="image"
-                size={20}
-                color={
-                  isLight
-                    ? LGlobals.inputMessages.icon
-                    : DGlobals.inputMessages.icon
-                }
-              />
-            </TouchableOpacity>
-            
-            {/* <TouchableOpacity onPress={() => setShowEmojiPicker(!showEmojiPicker)}>
-              <Ionicons
-                name="happy"
-                size={20}
-                color={
-                  isLight
-                    ? LGlobals.inputMessages.icon
-                    : DGlobals.inputMessages.icon
-                }
-              />
-            </TouchableOpacity>
-             */}
-            <TouchableOpacity onPress={isRecording ? stopRecording : startRecording}>
-              <Ionicons
-                name={isRecording ? "stop-circle" : "mic"}
-                size={20}
-                color={
-                  isRecording 
-                    ? "#ff4444"
-                    : isLight
-                    ? LGlobals.inputMessages.icon
-                    : DGlobals.inputMessages.icon
-                }
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{
-            width: 35,
-            height: 35,
-            borderRadius: 45,
-            backgroundColor: isLight
-              ? LGlobals.inputMessages.sendIconBackgroundColor
-              : DGlobals.inputMessages.sendIconBackgroundColor,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          onPress={onSend}
-        >
-          <Ionicons
-            name="send"
-            size={18}
-            color={
-              isLight
-                ? LGlobals.inputMessages.icon
-                : DGlobals.inputMessages.icon
-            }
-          />
-        </TouchableOpacity>
-      </View>
-
-      {/* Recording Indicator */}
-      {isRecording && (
-        <View style={{
-          position: 'absolute',
-          bottom: 60,
-          left: 20,
-          right: 20,
-          backgroundColor: isLight ? '#ffebee' : '#2d1b1b',
-          borderRadius: 12,
-          padding: 12,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: '#ff4444',
-              marginRight: 8,
-            }} />
-            <Text style={{
-              color: isLight ? '#d32f2f' : '#ffcdd2',
-              fontWeight: '500',
-            }}>
-              Recording... {Math.floor(recordingTime / 60)}:{(recordingTime % 60).toString().padStart(2, '0')}
-            </Text>
-          </View>
-          <TouchableOpacity onPress={stopRecording}>
-            <Ionicons name="stop-circle" size={24} color="#ff4444" />
+            <Ionicons 
+              name="happy-outline" 
+              size={24} 
+              color={isLight ? LGlobals.onSurface : DGlobals.onSurface} 
+            />
           </TouchableOpacity>
-        </View>
-      )}
-
-      {/* Emoji Picker Modal */}
-      <Modal
-        visible={showEmojiPicker}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setShowEmojiPicker(false)}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'flex-end',
-          }}
-          activeOpacity={1}
-          onPress={() => setShowEmojiPicker(false)}
-        >
-          <View style={{
-            backgroundColor: isLight ? LGlobals.background : DGlobals.background,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            padding: 20,
-            maxHeight: 300,
-          }}>
-            <View style={{
-              width: 40,
-              height: 4,
-              backgroundColor: isLight ? '#ddd' : '#666',
-              borderRadius: 2,
-              alignSelf: 'center',
-              marginBottom: 20,
-            }} />
-            
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around',
-              }}>
-                {emojis.map((emoji, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={{
-                      padding: 8,
-                      margin: 4,
-                      borderRadius: 8,
-                    }}
-                    onPress={() => {
-                      addEmoji(emoji);
-                      setShowEmojiPicker(false);
-                    }}
-                  >
-                    <Text style={{ fontSize: 24 }}>{emoji}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </ScrollView>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        )}
+        
+        {/* Voice Recording or Send Button */}
+        {isRecording ? (
+          <TouchableOpacity
+            style={[buttonStyle, styles.recordingButton]}
+            onPress={stopRecording}
+          >
+            <Ionicons name="stop" size={24} color="white" />
+            <Text style={styles.recordingTime}>
+              {formatRecordingTime(recordingTime)}
+            </Text>
+          </TouchableOpacity>
+        ) : message.trim() ? (
+          <TouchableOpacity
+            style={buttonStyle}
+            onPress={handleSend}
+            disabled={disabled}
+          >
+            <Ionicons name="send" size={20} color="white" />
+          </TouchableOpacity>
+        ) : showVoiceRecording ? (
+          <TouchableOpacity
+            style={[buttonStyle, styles.voiceButton]}
+            onPressIn={startRecording}
+            onPressOut={stopRecording}
+            disabled={disabled}
+          >
+            <Ionicons name="mic" size={20} color="white" />
+          </TouchableOpacity>
+        ) : null}
+      </View>
+      
+      {renderEmojiPanel()}
     </View>
   );
 };
 
-export default InputMessage;
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  replyPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    marginBottom: 8,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: '#007AFF',
+  },
+  replyContent: {
+    flex: 1,
+  },
+  replyText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginBottom: 2,
+  },
+  replyMessage: {
+    fontSize: 14,
+    opacity: 0.8,
+  },
+  cancelReply: {
+    padding: 4,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 8,
+  },
+  input: {
+    flex: 1,
+    minHeight: 40,
+    maxHeight: 120,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  button: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  voiceButton: {
+    backgroundColor: '#FF3B30',
+  },
+  recordingButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    width: 'auto',
+    minWidth: 80,
+  },
+  recordingTime: {
+    color: 'white',
+    fontSize: 12,
+    marginLeft: 4,
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emojiPanel: {
+    marginTop: 8,
+    borderRadius: 12,
+    padding: 16,
+    maxHeight: 200,
+  },
+  emojiGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  emojiButton: {
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 2,
+  },
+  emojiText: {
+    fontSize: 20,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default InputMessage;
