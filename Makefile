@@ -1,6 +1,6 @@
 # Start the Expo dev server in the current `frontend` directory
 run:
-	npx expo start
+	cd frontend && npx expo start
 
 
 
@@ -12,8 +12,8 @@ cache-clear:
 
 
 # Start the Django backend server from `../backend/communityapi`
-server:
-cd backend/communityapi && python manage.py runserver 
+runserver:
+	cd backend/communityapi && python manage.py runserver
 
 
 
@@ -26,5 +26,5 @@ run-android:
 # Start Redis using Docker (recommended for GitHub terminals/Codespaces)
 # If the container exists, it will be started; otherwise, it will be created
 redis:
-cd ../../Program Files/Redis && redis-server.exe redis.windows.conf
+	cd "C:/Program Files/Redis" && redis-server.exe redis.windows.conf
 
