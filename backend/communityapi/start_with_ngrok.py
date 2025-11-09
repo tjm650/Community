@@ -41,6 +41,22 @@ def start_django_server():
         print(f"[ERROR] Error starting Django server: {e}")
         return None
 
+def start_ngrok():
+    """Start ngrok tunnel"""
+    try:
+        print("Starting ngrok tunnel...")
+        process = subprocess.Popen(['ngrok', 'http', '8000'],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT,
+                                 text=True,
+                                 bufsize=1,
+                                 universal_newlines=True)
+        print("[OK] Ngrok tunnel starting...")
+        return process
+    except Exception as e:
+        print(f"[ERROR] Error starting ngrok: {e}")
+        return None
+
 def monitor_output(process, name):
     """Monitor process output"""
     if process and process.stdout:

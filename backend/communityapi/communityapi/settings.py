@@ -22,13 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vqf$3qcaae_wp6=%&m20ttc_@)fe!ejffrk!vl&^sh=l)^odw%'
+SECRET_KEY = config('SECRET_KEY') # , default='django-insecure-vqf$3qcaae_wp6=%&m20ttc_@)fe!ejffrk!vl&^sh=l)^odw%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # ALLOWED_HOSTS from environment variable
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,192.168.137.1,*.ngrok-free.app,b86a5b2b71d6.ngrok-free.app').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',') #, default='127.0.0.1,localhost,192.168.137.1,*.ngrok-free.app'
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS if host.strip()]
 
 AUTH_USER_MODEL = "api.User"
@@ -63,11 +63,11 @@ SIMPLE_JWT = {
 }
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 'true'
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=True, cast=bool)
 CORS_ALLOW_CREDENTIALS = True
 
 # CORS_ALLOWED_ORIGINS from environment variable
-cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000,http://192.168.137.1:3000,https://b86a5b2b71d6.ngrok-free.app')
+cors_origins = config('CORS_ALLOWED_ORIGINS') # , default='http://localhost:3000,http://127.0.0.1:3000,http://192.168.137.1:3000'
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins.split(',') if origin.strip()]
 
 CORS_ALLOWED_HEADERS = [
@@ -96,12 +96,12 @@ ASGI_APPLICATION = "communityapi.asgi.application"
 
 
 # Channels - Redis configuration from environment
-REDIS_URL = os.getenv('REDIS_URL', 'redis://196.220.104.115:6379/0')
+REDIS_URL = config('REDIS_URL') # default='redis://196.220.104.115:6379/0
 
 # Parse Redis URL for Channels configuration
 from urllib.parse import urlparse
 redis_parsed = urlparse(REDIS_URL)
-redis_host = redis_parsed.hostname or '196.220.104.115'
+redis_host = redis_parsed.hostname # or '196.220.104.115'
 redis_port = redis_parsed.port or 6379
 # Use an in-memory channel layer for local development (faster startup, no external Redis required).
 # In production (DEBUG=False) we fall back to RedisChannelLayer using REDIS_URL.
@@ -191,12 +191,22 @@ WSGI_APPLICATION = 'communityapi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database configuration from environment
+DATABASE_URL = config('DATABASE_URL', default='sqlite:///db.sqlite3')
+
+if DATABASE_URL.startswith('sqlite:///'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / DATABASE_URL.replace('sqlite:///', ''),
+        }
     }
-}
+else:
+    # For other database types (PostgreSQL, MySQL, etc.)
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL)
+    }
 
 
 # Password validation
@@ -245,7 +255,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Gemini AI Settings - Enhanced Configuration
-GEMINI_API_KEY = config('GEMINI_API_KEY', default='AIzaSyDdemo_key_for_testing_only_replace_with_real_key_from_google_ai')
+GEMINI_API_KEY = config('GEMINI_API_KEY') # , default='your_gemini_api_key_here
 
 # Gemini API Configuration - Updated for current API version
 GEMINI_CONFIG = {

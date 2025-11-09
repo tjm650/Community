@@ -10,10 +10,20 @@ cache-clear:
 	npx expo start --clear
 
 
-
 # Start the Django backend server from `../backend/communityapi`
 runserver:
 	cd backend/communityapi && python manage.py runserver
+
+
+
+
+ngrok:
+	ngrok http 8000
+
+# Start Django server with ngrok script
+runserver-ngrok:
+	cd backend/communityapi && python start_with_ngrok.py
+
 
 
 

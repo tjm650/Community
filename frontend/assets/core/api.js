@@ -1,7 +1,9 @@
 import axios from "axios";
 import secure from "./secure";
 
-export const ADDRESS = "192.168.137.1:8000";
+import Constants from 'expo-constants';
+
+export const ADDRESS = Constants.expoConfig?.extra?.EXPO_PUBLIC_API_URL || "192.168.137.1:8000";
 // export const ADDRESS = "localhost:8000";
 // export const ADDRESS = 'b86a5b2b71d6.ngrok-free.app'
 
