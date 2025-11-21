@@ -46,7 +46,7 @@ jobs:
         with:
           # Expo's 'expo export:web' creates a folder named 'web-build'
           # We specify the path relative to the root of the repository
-          path: './frontend/web-build' 
+          path: './frontend/dist' 
 
       - name: Deploy to GitHub Pages
         id: deployment
