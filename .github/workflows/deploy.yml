@@ -20,33 +20,34 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
 
       # 1. Setup Node.js Environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use a recent stable Node version
+          node-version: '20'
 
-      # ... (previous steps) ...
-
-      # 2. Install Dependencies
+      # 2. Install Dependencies (MUST be run inside the frontend directory)
       - name: Install dependencies
         run: npm install
-        # Tell the action to look inside the 'frontend' folder
         working-directory: ./frontend 
 
-      # 3. Build the Application
+      # 3. Build the Expo Web Application (MUST be run inside the frontend directory)
       - name: Build project
         run: npm run build 
-        # Tell the action to look inside the 'frontend' folder
         working-directory: ./frontend
 
       # 4. Upload the Build Artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # IMPORTANT: The build folder ('build' or 'dist') is created INSIDE 'frontend'
-          # So the path to the artifact is now 'frontend/build' (or similar)
-          path: './frontend/build' 
-# ... (rest of the steps) ...
+          # Expo's 'expo export:web' creates a folder named 'web-build'
+          # We specify the path relative to the root of the repository
+          path: './frontend/web-build' 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
