@@ -1,4 +1,15 @@
 {
+  "homepage": "https://tjm650.github.io/Community/",
+  "name": "community",
+},
+{
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+{
   "name": "community",
   "main": "expo-router/entry",
   "version": "1.0.0",
