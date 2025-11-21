@@ -1,47 +1,51 @@
-name: Deploy Static Website to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
-  # Triggers the workflow on push events to the 'main' branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions needed for the workflow
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allows concurrent deployments to avoid issues
 concurrency:
   cancel-in-progress: true
   group: "pages"
 
 jobs:
-  # The deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Prepare Artifact (your website files)
+      # 1. Setup Node.js Environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a recent stable Node version
+
+      # 2. Install Dependencies (e.g., node_modules)
+      - name: Install dependencies
+        run: npm install # Or 'yarn install' if you use yarn
+
+      # 3. Build the React Application
+      - name: Build project
+        run: npm run build # This command creates the static 'build' or 'dist' folder
+
+      # 4. Upload the Build Artifact
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 2. Upload the artifact to GitHub Pages
-      # The deploy.yml assumes your website files are in the root of the repo ('.')
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'  # This should be the directory containing your index.html and assets
+          # IMPORTANT: Change this path to match the output folder of your build command
+          path: './build' 
+          # Common build folders are 'build', 'dist', or 'public'
 
-      # 3. Deploy the artifact
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
