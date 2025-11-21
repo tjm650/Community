@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
 
       # 1. Setup Node.js Environment
       - name: Setup Node.js
@@ -27,25 +28,25 @@ jobs:
         with:
           node-version: '20' # Use a recent stable Node version
 
-      # 2. Install Dependencies (e.g., node_modules)
-      - name: Install dependencies
-        run: npm install # Or 'yarn install' if you use yarn
+      # ... (previous steps) ...
 
-      # 3. Build the React Application
+      # 2. Install Dependencies
+      - name: Install dependencies
+        run: npm install
+        # Tell the action to look inside the 'frontend' folder
+        working-directory: ./frontend 
+
+      # 3. Build the Application
       - name: Build project
-        run: npm run build # This command creates the static 'build' or 'dist' folder
+        run: npm run build 
+        # Tell the action to look inside the 'frontend' folder
+        working-directory: ./frontend
 
       # 4. Upload the Build Artifact
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # IMPORTANT: Change this path to match the output folder of your build command
-          path: './build' 
-          # Common build folders are 'build', 'dist', or 'public'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          # IMPORTANT: The build folder ('build' or 'dist') is created INSIDE 'frontend'
+          # So the path to the artifact is now 'frontend/build' (or similar)
+          path: './frontend/build' 
+# ... (rest of the steps) ...
