@@ -1,5 +1,5 @@
 # Start the Expo dev server in the current `frontend` directory
-frontend:
+run:
 	cd frontend && npx expo start
 
 
