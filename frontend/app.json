@@ -8,6 +8,20 @@
     "scheme": "community",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {
+      "favicon": "./assets/logo.png",
+      "bundler": "metro",
+      "output": "static",
+      "baseUrl": "/Community/",
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -18,10 +32,6 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/logo.png"
     },
     "plugins": [
       "expo-router",
@@ -39,9 +49,11 @@
       ],
       "expo-font"
     ],
+    "scheme": "community",
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": true,
+      "tsconfigPaths": true
     },
     "extra": {
       "EXPO_PUBLIC_API_URL": "0.0.0.0:8000"

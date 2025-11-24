@@ -1,9 +1,8 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
-
 const config = getDefaultConfig(__dirname);
 
-// Configure path aliases for Metro bundler
+// Keep ONLY the path alias block if you still need it
 config.resolver = {
   ...config.resolver,
   alias: {
