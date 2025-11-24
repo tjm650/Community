@@ -26,23 +26,36 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Validate package.json
+        run: |
+          cd frontend
+          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ package.json is valid JSON');"
+
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
 
       - name: Build project
-        run: |
-          npm run build
-          # Rename dist to web-build for consistency
-          [ -d "dist" ] && mv dist web-build || echo "dist directory not found"
+        run: npm run build
         working-directory: ./frontend
 
-      - name: Verify build output
+      - name: Prepare deployment
         run: |
-          echo "Build output structure:"
-          find ./frontend -name "*.html" -o -name "*.js" | head -20
-          echo "Web-build contents:"
-          ls -la ./frontend/web-build/
+          # Check what build directory was created
+          if [ -d "frontend/dist" ]; then
+            echo "Using dist directory"
+            cp -r frontend/dist/* ./
+          elif [ -d "frontend/web-build" ]; then
+            echo "Using web-build directory" 
+            cp -r frontend/web-build/* ./
+          else
+            echo "No build directory found. Listing frontend:"
+            ls -la frontend/
+            exit 1
+          fi
+          
+          echo "Final files to deploy:"
+          ls -la
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -50,8 +63,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the web-build directory
-          path: './frontend/web-build'
+          path: './'
 
       - name: Deploy to GitHub Pages
         id: deployment
