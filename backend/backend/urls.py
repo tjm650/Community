@@ -10,7 +10,7 @@ def health_check(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/health', health_check, name='health_check'),  # Add this line
+    path('health/', health_check, name='health_check'),  # Add this line
     path('api/', include('api.urls')),
     path('ablog/', include('ablog.urls')),
     path('app_notif/', include('app_notif.urls')),
