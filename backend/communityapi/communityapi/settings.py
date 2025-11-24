@@ -166,7 +166,7 @@ MIDDLEWARE = [
      "django.contrib.messages.middleware.MessageMiddleware",
      "django.middleware.clickjacking.XFrameOptionsMiddleware",
      "quercus.middleware.QuercusRateLimitMiddleware",
-]
+]   
 
 ROOT_URLCONF = 'communityapi.urls'
 
