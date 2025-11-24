@@ -21,42 +21,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Setup Node.js Environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 2. Install Dependencies
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
 
-      # 3. Build the Expo Web Application
       - name: Build project
         run: npm run build
         working-directory: ./frontend
 
-      # 4. Move build files to root for GitHub Pages
-      - name: Prepare for GitHub Pages
+      - name: Prepare deployment
         run: |
-          # Copy all files from frontend/dist to root directory
-          cp -r frontend/dist/* ./ || true
-          # Create a simple index.html if the build didn't create one
-          if [ ! -f "index.html" ]; then
-            echo "No index.html found in dist, creating one..."
-            echo '<!DOCTYPE html><html><head><title>Community</title><meta http-equiv="refresh" content="0;url=_expo/static/js/web/entry-5c0902493d35d7ff3ebe1f15971c7f08.js"></head><body>Redirecting...</body></html>' > index.html
-          fi
+          # Create the deployment directory
+          mkdir -p deployment
+          
+          # Copy all built files to deployment directory
+          cp -r frontend/dist/* deployment/
+          
+          # Check what files were built
+          echo "Built files:"
+          ls -la frontend/dist/
+          echo "Files in deployment:"
+          ls -la deployment/
 
-      # 5. Upload the Build Artifact
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload from root where we copied the files
-          path: './'
+          # Upload from the deployment directory
+          path: './deployment'
 
       - name: Deploy to GitHub Pages
         id: deployment
