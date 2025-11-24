@@ -8,9 +8,6 @@
     "scheme": "community",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "experiments": {
-      "baseUrl": "/Community"
-    },
      "web": {
       "bundler": "metro",
       "output": "static",
