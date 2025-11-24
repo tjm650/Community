@@ -31,6 +31,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
         working-directory: ./frontend
+        env:
+          WEB_PUBLIC_PATH: /Community/
 
       - name: Build
         run: npx expo export --platform web
