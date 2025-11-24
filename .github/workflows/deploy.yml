@@ -34,20 +34,30 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-      - name: Fix HTML files for GitHub Pages
+      - name: Fix HTML and JS files for GitHub Pages
         run: |
           cd frontend/dist
-          # Fix the asset paths in all HTML files
+          
+          # Fix module types in HTML files
           for file in *.html; do
             if [ -f "$file" ]; then
-              echo "Fixing paths in $file"
+              echo "Fixing module types in $file"
+              # Add type="module" to script tags
+              sed -i 's|<script src="|<script type="module" src="|g' "$file"
+              # Fix paths for GitHub Pages
               sed -i 's|src="/|src="/Community/|g' "$file"
               sed -i 's|href="/|href="/Community/|g' "$file"
-              sed -i 's|src="/_expo|src="/Community/_expo|g' "$file"
-              sed -i 's|href="/_expo|href="/Community/_expo|g' "$file"
             fi
           done
-          echo "HTML files fixed for GitHub Pages"
+          
+          # Add import.meta polyfill to JS files
+          find . -name "*.js" -type f | while read jsfile; do
+            if grep -q "import.meta" "$jsfile"; then
+              echo "Adding import.meta polyfill to $jsfile"
+              # Add a simple polyfill at the beginning of the file
+              awk 'BEGIN{print "if (typeof import.meta === \"undefined\") { var import_meta = { url: document.currentScript?.src || \"\" }; }"}1' "$jsfile" > "${jsfile}.tmp" && mv "${jsfile}.tmp" "$jsfile"
+            fi
+          done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
