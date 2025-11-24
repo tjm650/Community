@@ -26,11 +26,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Validate package.json
-        run: |
-          cd frontend
-          node -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')); console.log('✅ package.json is valid JSON');"
-
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
@@ -39,23 +34,20 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-      - name: Prepare deployment
+      - name: Fix HTML files for GitHub Pages
         run: |
-          # Check what build directory was created
-          if [ -d "frontend/dist" ]; then
-            echo "Using dist directory"
-            cp -r frontend/dist/* ./
-          elif [ -d "frontend/web-build" ]; then
-            echo "Using web-build directory" 
-            cp -r frontend/web-build/* ./
-          else
-            echo "No build directory found. Listing frontend:"
-            ls -la frontend/
-            exit 1
-          fi
-          
-          echo "Final files to deploy:"
-          ls -la
+          cd frontend/dist
+          # Fix the asset paths in all HTML files
+          for file in *.html; do
+            if [ -f "$file" ]; then
+              echo "Fixing paths in $file"
+              sed -i 's|src="/|src="/Community/|g' "$file"
+              sed -i 's|href="/|href="/Community/|g' "$file"
+              sed -i 's|src="/_expo|src="/Community/_expo|g' "$file"
+              sed -i 's|href="/_expo|href="/Community/_expo|g' "$file"
+            fi
+          done
+          echo "HTML files fixed for GitHub Pages"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -63,7 +55,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './'
+          path: './frontend/dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
