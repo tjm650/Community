@@ -19,9 +19,8 @@
     "web": {
       "favicon": "./assets/logo.png",
       "bundler": "metro",
-      "publicPath": "/Community/",
-      "baseUrl": "/Community/",
       "output": "static",
+      "baseUrl": "/Community/",
     },
     "ios": {
       "supportsTablet": true
@@ -50,6 +49,7 @@
       ],
       "expo-font"
     ],
+    "scheme": "community",
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
