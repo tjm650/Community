@@ -20,7 +20,7 @@
       "favicon": "./assets/logo.png",
       "bundler": "metro",
       "publicPath": "/Community/",
-      "baseUrl": "/Community/"
+      "baseUrl": "/Community/",
       "output": "static",
     },
     "ios": {
