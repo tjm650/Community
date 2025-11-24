@@ -33,7 +33,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Build
-        run: npx expo export --platform web --public-path /Community/
+        run: npx expo export --platform web
         working-directory: ./frontend
         env:
           WEB_PUBLIC_PATH: /Community/
