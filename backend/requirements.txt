@@ -4,7 +4,6 @@ djangorestframework==3.15.2
 django-cors-headers==4.9.0
 django-rest-framework-simplejwt==5.3.1
 PyJWT==2.8.0
-cryptography==42.0.8
 
 # Channels & ASGI
 channels==4.1.0
@@ -30,8 +29,6 @@ coverage==7.5.3
 pytest==7.4.4
 pytest-django==4.8.0
 pytest-cov==4.1.0
-flake8==7.1.0
-black==24.4.2
-isort==5.13.2
-safety==2.3.5
-bandit==1.7.8
+
+# Security
+cryptography==41.0.9
