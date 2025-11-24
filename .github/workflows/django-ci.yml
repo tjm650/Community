@@ -58,29 +58,31 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Change to backend directory
+    - name: Debug directory structure
       run: |
         echo "Current directory: $(pwd)"
         echo "Directory contents:"
         ls -la
         echo "Backend directory contents:"
         ls -la backend/
+        echo "Backend/communityapi directory contents:"
+        ls -la backend/communityapi/
     
     - name: Install dependencies
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
     - name: Verify Python and Django versions
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         python --version
         python -c "import django; print(f'Django {django.__version__}')"
         python -c "import sys; print('Python path:', sys.path)"
     
     - name: Run migrations
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         python manage.py makemigrations
         python manage.py migrate
@@ -88,12 +90,12 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_community
     
     - name: Run tests
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         python manage.py test
     
     - name: Run coverage
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         pip install coverage
         coverage run manage.py test
@@ -103,7 +105,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        file: ./backend/coverage.xml
+        file: ./backend/communityapi/coverage.xml
 
   security-check:
     runs-on: ubuntu-latest
@@ -116,17 +118,17 @@ jobs:
         python-version: '3.10'
     
     - name: Install security tools
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         pip install safety bandit
     
     - name: Check for security vulnerabilities
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         safety check --ignore=70605 || true
     
     - name: Run bandit security scan
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         bandit -r . -f json -o security-report.json || true
 
@@ -141,22 +143,22 @@ jobs:
         python-version: '3.10'
     
     - name: Install linting tools
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         pip install flake8 black isort
     
     - name: Run flake8
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         flake8 . --count --select=F,E9,F63,F7,F82 --show-source --statistics --max-line-length=127 --extend-ignore=E203,W503 || true
     
     - name: Run black check
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         black --check --line-length=127 . || true
     
     - name: Run isort check
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         isort --check-only --profile=black . || true
 
@@ -173,12 +175,12 @@ jobs:
         python-version: '3.10'
     
     - name: Install dependencies
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         pip install -r requirements.txt
     
     - name: Check Django startup
-      working-directory: ./backend
+      working-directory: ./backend/communityapi
       run: |
         python manage.py check
         python manage.py collectstatic --noinput
