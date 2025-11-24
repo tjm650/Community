@@ -1,4 +1,4 @@
-# Core Django & REST Framework - Python 3.10+ compatible
+# Core Django & REST Framework
 Django==5.2.8
 djangorestframework==3.15.2
 django-cors-headers==4.9.0
@@ -32,8 +32,3 @@ coverage==7.5.3
 pytest==7.4.4
 pytest-django==4.8.0
 pytest-cov==4.1.0
-flake8==7.1.0
-black==24.4.2
-isort==5.13.2
-safety==2.3.5
-bandit==1.7.8
