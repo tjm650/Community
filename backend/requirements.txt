@@ -1,25 +1,37 @@
-Django>=5.2,<6.0
-djangorestframework>=3.14,<4.0
-django-cors-headers>=4.3,<5.0
-django-rest-framework-simplejwt>=5.3,<6.0
-channels>=4.0,<5.0
-channels-redis>=4.1,<5.0
-daphne>=4.0,<5.0
-python-decouple>=3.8,<4.0
-dj-database-url>=2.0,<3.0
-google-generativeai>=0.3,<1.0
-Pillow>=10.0,<11.0
-psycopg2-binary>=2.9,<3.0
-gunicorn>=21.2,<22.0
-whitenoise>=6.5,<7.0
+# Core Django & REST Framework
+Django==5.2.8
+djangorestframework==3.15.2
+django-cors-headers==4.9.0
+django-rest-framework-simplejwt==5.3.1
+PyJWT==2.8.0
+cryptography==42.0.8
+
+# Channels & ASGI
+channels==4.1.0
+channels-redis==4.2.0
+daphne==4.1.0
+asgiref==3.8.1
+
+# Configuration & Database
+python-decouple==3.8
+dj-database-url==2.1.0
+psycopg2-binary==2.9.9
+
+# AI & Media
+google-generativeai==0.3.2
+Pillow==10.3.0
+
+# Production
+gunicorn==21.2.0
+whitenoise==6.6.0
 
 # Development & Testing
-coverage>=7.3,<8.0
-pytest>=7.4,<8.0
-pytest-django>=4.5,<5.0
-pytest-cov>=4.1,<5.0
-flake8>=6.0,<7.0
-black>=23.0,<24.0
-isort>=5.12,<6.0
-safety>=2.3,<3.0
-bandit>=1.7,<2.0
+coverage==7.5.3
+pytest==7.4.4
+pytest-django==4.8.0
+pytest-cov==4.1.0
+flake8==7.1.0
+black==24.4.2
+isort==5.13.2
+safety==2.3.5
+bandit==1.7.8
