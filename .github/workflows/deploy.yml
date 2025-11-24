@@ -31,15 +31,16 @@ jobs:
       - name: Install Dependencies
         run: npm install
         working-directory: ./frontend
-        env:
-          WEB_PUBLIC_PATH: /Community/
 
       - name: Build
         run: npx expo export --platform web
         working-directory: ./frontend
+        env:
+          WEB_PUBLIC_PATH: /Community/
 
       - name: Create .nojekyll
-        run: touch frontend/dist/.nojekyll
+        run: touch .nojekyll
+        working-directory: ./frontend/dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
