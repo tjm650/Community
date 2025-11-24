@@ -1,53 +1,36 @@
+# Core Django
 Django==5.2.8
 djangorestframework==3.15.2
 django-cors-headers==4.9.0
 djangorestframework-simplejwt==5.3.1
-PyJWT==2.8.0
+
+# Channels & WebSockets
 channels==4.1.0
 channels-redis==4.2.0
 daphne==4.1.0
 asgiref==3.8.1
-python-decouple==3.8
-dj-database-url==2.1.0
+
+# Database
 psycopg2-binary==2.9.9
+dj-database-url==2.1.0
+
+# Configuration
+python-decouple==3.8
+
+# AI & Media
 google-generativeai==0.3.2
 Pillow==10.3.0
+
+# Production
 gunicorn==21.2.0
 whitenoise==6.6.0
+
+# Security & JWT
+PyJWT==2.8.0
 cryptography==41.0.7
 
-
-# Core Django & REST Framework
-# Django>=5.2,<6.0
-# djangorestframework>=3.14,<4.0
-# django-cors-headers>=4.3,<5.0
-# djangorestframework-simplejwt>=5.2,<6.0
-# PyJWT>=2.3,<3.0
-
-# # Channels & ASGI
-# channels>=4.0,<5.0
-# channels-redis>=4.1,<5.0
-# daphne>=4.0,<5.0
-# asgiref>=3.7,<4.0
-
-# # Configuration & Database
-# python-decouple>=3.8,<4.0
-# dj-database-url>=2.0,<3.0
-# psycopg2-binary>=2.9,<3.0
-
-# # AI & Media
-# google-generativeai>=0.3,<1.0
-# Pillow>=10.0,<11.0
-
-# # Production
-# gunicorn>=21.2,<22.0
-# whitenoise>=6.5,<7.0
-
-# # Security
-# cryptography>=41.0,<43.0
-
-# # Development & Testing
-# coverage>=7.3,<8.0
-# pytest>=7.4,<8.0
-# pytest-django>=4.5,<5.0
-# pytest-cov>=4.1,<5.0
+# Development (optional for production)
+coverage==7.5.3
+pytest==7.4.4
+pytest-django==4.8.0
+flake8==7.1.0
