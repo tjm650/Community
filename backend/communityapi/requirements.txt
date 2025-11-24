@@ -14,7 +14,7 @@ asgiref==3.8.1
 # Configuration & Database
 python-decouple==3.8
 dj-database-url==2.1.0
-psycopg2-binary==2.9.9  # This works with both PostgreSQL 13 and 15
+psycopg2-binary==2.9.9
 
 # AI & Media
 google-generativeai==0.3.2
