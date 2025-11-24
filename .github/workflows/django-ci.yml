@@ -23,31 +23,6 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10', '3.11']
-    
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_community
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      
-      redis:
-        image: redis:7-alpine
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
 
     steps:
     - name: Checkout code
@@ -69,22 +44,20 @@ jobs:
       run: |
         python --version
         python -c "import django; print(f'Django {django.__version__}')"
+        python -c "import rest_framework; print('DRF installed')"
+        python -c "from rest_framework_simplejwt.tokens import AccessToken; print('JWT installed')"
     
-    - name: Run migrations with SQLite
+    - name: Run migrations
       working-directory: ./backend/communityapi
       run: |
         python manage.py makemigrations --check --dry-run
         python manage.py makemigrations
         python manage.py migrate
-      env:
-        DATABASE_URL: 'sqlite:///db.sqlite3'
     
     - name: Run tests
       working-directory: ./backend/communityapi
       run: |
         python manage.py test
-      env:
-        DATABASE_URL: 'sqlite:///db.sqlite3'
     
     - name: Run coverage
       working-directory: ./backend/communityapi
@@ -92,16 +65,8 @@ jobs:
         pip install coverage
         coverage run manage.py test
         coverage report
-        coverage xml
-      env:
-        DATABASE_URL: 'sqlite:///db.sqlite3'
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./backend/communityapi/coverage.xml
 
-  security-check:
+  security:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -156,9 +121,9 @@ jobs:
       run: |
         isort --check-only --profile=black . || true
 
-  build-check:
+  build:
     runs-on: ubuntu-latest
-    needs: [test, security-check, lint]
+    needs: [test, security, lint]
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
