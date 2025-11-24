@@ -1,22 +1,6 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "cd backend && pip install -r requirements.txt",
-    "outputs": [
-      "/backend"
-    ]
-  },
-  "deploy": {
-    "startCommand": "cd backend && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120",
-    "healthCheckPath": "/api/health/",
-    "healthCheckTimeout": 300,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 5
-  },
-  "env": {
-    "DISABLE_COLLECTSTATIC": "0",
-    "PYTHON_VERSION": "3.10.11",
-    "PYTHONPATH": "/backend"
+    "builder": "DOCKERFILE"
   }
 }
