@@ -1,4 +1,4 @@
-name: Deploy React App to GitHub Pages
+name: Deploy Expo App to GitHub Pages
 
 on:
   push:
@@ -31,22 +31,18 @@ jobs:
         working-directory: ./frontend
 
       - name: Build project
-        run: npm run build
+        run: |
+          npm run build
+          # Rename dist to web-build for consistency
+          [ -d "dist" ] && mv dist web-build || echo "dist directory not found"
         working-directory: ./frontend
 
-      - name: Prepare deployment
+      - name: Verify build output
         run: |
-          # Create the deployment directory
-          mkdir -p deployment
-          
-          # Copy all built files to deployment directory
-          cp -r frontend/dist/* deployment/
-          
-          # Check what files were built
-          echo "Built files:"
-          ls -la frontend/dist/
-          echo "Files in deployment:"
-          ls -la deployment/
+          echo "Build output structure:"
+          find ./frontend -name "*.html" -o -name "*.js" | head -20
+          echo "Web-build contents:"
+          ls -la ./frontend/web-build/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -54,8 +50,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload from the deployment directory
-          path: './deployment'
+          # Upload the web-build directory
+          path: './frontend/web-build'
 
       - name: Deploy to GitHub Pages
         id: deployment
