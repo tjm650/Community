@@ -10,8 +10,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "build": "expo export --platform web --clear",
-    "build:fix": "npm run build && node scripts/fix-import-meta.js",
+    "build": "expo export --platform web",
   },
   "dependencies": {
     "@expo/vector-icons": "15.0.3",
