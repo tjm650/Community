@@ -1,5 +1,5 @@
 # Start the Expo dev server in the current `frontend` directory
-run:
+frontend:
 	cd frontend && npx expo start
 
 
@@ -12,7 +12,7 @@ cache-clear:
 
 # Start the Django backend server from `../backend/communityapi`
 runserver:
-	cd backend/communityapi && python manage.py runserver
+	cd backend && python manage.py runserver
 
 
 
