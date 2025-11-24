@@ -20,6 +20,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "publicPath": "/Community/",
       "output": "static",
       "favicon": "./assets/logo.png"
     },
