@@ -8,10 +8,20 @@
     "scheme": "community",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-     "web": {
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {
+      "favicon": "./assets/logo.png",
       "bundler": "metro",
+      "publicPath": "/Community/",
+      "baseUrl": "/Community/"
       "output": "static",
-      "favicon": "./assets/logo.png"
     },
     "ios": {
       "supportsTablet": true
