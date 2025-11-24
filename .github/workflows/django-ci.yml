@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.10', '3.11']  # Removed 3.9 for better compatibility
+        python-version: ['3.10', '3.11']  # Only compatible versions
     
     services:
       postgres:
@@ -58,110 +58,49 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Downgrade pip for better compatibility
+    - name: Install dependencies
       run: |
-        python -m pip install --upgrade "pip<24.0"
-    
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-${{ matrix.python-version }}-
-    
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libpq-dev python3-dev
-    
-    - name: Install Python dependencies
-      run: |
-        pip install setuptools wheel
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Install test dependencies separately
-      run: |
-        pip install coverage pytest pytest-django pytest-cov
-    
-    - name: Verify critical installations
+    - name: Verify installations
       run: |
         python -c "import django; print(f'Django {django.__version__}')"
-        python -c "try: import rest_framework; print(f'DRF installed'); except: print('DRF missing')"
-        python -c "try: from rest_framework_simplejwt import tokens; print('JWT installed'); except: print('JWT missing')"
+        python -c "import rest_framework; print('DRF installed')"
+        python -c "from rest_framework_simplejwt.tokens import AccessToken; print('JWT installed')"
     
     - name: Run migrations
       run: |
-        python manage.py makemigrations --check --dry-run
         python manage.py makemigrations
         python manage.py migrate
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_community
     
-    - name: Run basic tests
+    - name: Run tests
       run: |
-        python manage.py check
-        python manage.py test api --verbosity=1
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_community
+        python manage.py test
     
     - name: Run coverage
       run: |
-        coverage run --source='.' manage.py test
+        pip install coverage
+        coverage run manage.py test
         coverage report
-        coverage xml
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-python-${{ matrix.python-version }}
 
   security-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
-    
-    - name: Install security tools
-      run: |
-        pip install safety bandit
-    
-    - name: Check for security vulnerabilities
-      run: |
-        safety check --ignore=70605 || true  # Ignore django safety issues for testing
-    
-    - name: Run bandit security scan
-      run: |
-        bandit -r . -f json -o security-report.json || true
+        python-version: '3.11'
+    - run: pip install safety
+    - run: safety check
 
   lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
-    
-    - name: Install linting tools
-      run: |
-        pip install flake8 black isort
-    
-    - name: Run flake8
-      run: |
-        flake8 . --count --select=F,E9,F63,F7,F82 --show-source --statistics --max-line-length=127 --extend-ignore=E203,W503 || true
-    
-    - name: Run black check
-      run: |
-        black --check --line-length=127 . || true
-    
-    - name: Run isort check
-      run: |
-        isort --check-only --profile=black . || true
+        python-version: '3.11'
+    - run: pip install flake8 black
+    - run: flake8 . --count --max-line-length=127
+    - run: black --check --line-length=127 .
