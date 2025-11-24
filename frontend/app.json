@@ -9,9 +9,9 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
      "web": {
-       "bundler": "metro",
-      "publicPath": "/Community/",
+      "bundler": "metro",
       "output": "static",
+      "publicPath": "/Community/",
       "favicon": "./assets/logo.png"
     },
     "ios": {
