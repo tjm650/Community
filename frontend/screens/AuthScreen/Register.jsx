@@ -38,7 +38,7 @@ const Register = () => {
 
   const navigation = useNavigation();
 
-  const signup = useGlobal((state) => state.signup);
+  const signup = useGlobal((state) => state.signUp);
 
   const handleRegister = async () => {
     setshortPassword1(false);
@@ -82,10 +82,10 @@ const Register = () => {
     }
 
     //Check If Passwords Match
-    const failPassword2 = password1 !== password2;
-    if (failPassword2) {
-      setPasswordError2("Passwords Don't  Match!");
-    }
+    // const failPassword2 = password1 !== password2;
+    // if (failPassword2) {
+    //   setPasswordError2("Passwords Don't  Match!");
+    // }
     
     //Show the Error, If it exists
     if (
@@ -101,6 +101,7 @@ const Register = () => {
     ) {
       return;
     }
+    console.log("Registration successful:");
 
     setIsLoading(true);
     setAuth(false);
